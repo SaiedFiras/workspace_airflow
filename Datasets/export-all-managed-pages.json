@@ -1,0 +1,882 @@
+{
+    "success": true,
+    "message": "Managed pages retrieved successfully",
+    "data": [
+        {
+            "id": 5,
+            "name": "Samsung",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 10,
+            "name": "El Mazraa",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 11,
+            "name": "Chamia Papillon",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 12,
+            "name": "Access",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 15,
+            "name": "Audi Tunisie",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 22,
+            "name": "Selecta",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 28,
+            "name": "Cafés Ben Yedder",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 38,
+            "name": "Porsche Centre Tunis",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 39,
+            "name": "Assurances El Amana Takaful",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 40,
+            "name": "Olà Gelati",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 42,
+            "name": "Samsung",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 44,
+            "name": "Orange Foot",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 45,
+            "name": "ChefBot El Mazraa",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 61,
+            "name": "Mixdubs",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 70,
+            "name": "Foot Africa",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 100,
+            "name": "Orange Digital Center",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 119,
+            "name": "Wafa",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 121,
+            "name": "Géant Tunisie",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 147,
+            "name": "QNB Group",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 149,
+            "name": "STB Bank  الشركة التونسية للبنك",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 287,
+            "name": "Bank ABC Tunisia",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 323,
+            "name": "Orange",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 353,
+            "name": "Yaourt Délice Tunisie",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 396,
+            "name": "Access innov",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 397,
+            "name": "Orange Bot",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 412,
+            "name": "Orient Tunisie",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 415,
+            "name": "UPSAT - Faculté des sciences de la santé",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 462,
+            "name": "Stil",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 556,
+            "name": "Jus #EnergyFruits",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 557,
+            "name": "Bnino",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 576,
+            "name": "OIKOS Tunisie",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 711,
+            "name": "Koton Tunisie",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 754,
+            "name": "La gazelle, halwa chamia",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 781,
+            "name": "DéliShake",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 799,
+            "name": "Flex Fitness",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 834,
+            "name": "Mattel",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 844,
+            "name": "Ennakl Occasions",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 846,
+            "name": "#EnergyFruits",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 852,
+            "name": "Societe Centrale Pneus-SCP",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 853,
+            "name": "20X pump signal actions",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 858,
+            "name": "Audi Tunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 933,
+            "name": "Selecta",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 934,
+            "name": "Samsung Tunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 935,
+            "name": "olinatunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 937,
+            "name": "Yaourt Délice Tunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 938,
+            "name": "Assurances El Amana Takaful",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 939,
+            "name": "Chamia Papillon",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 1084,
+            "name": "Tasty Vape Ennaser",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 1085,
+            "name": "Matrix coin",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 2448,
+            "name": "Cynoia",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 2449,
+            "name": "Cynoia",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 2743,
+            "name": "Cynoia",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 3108,
+            "name": "Access Content Agency",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 3269,
+            "name": "amaaazing.tn",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 3451,
+            "name": "Bado Style",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 3535,
+            "name": "Dreamlike",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 4943,
+            "name": "كف و كعبه حلوى",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 4948,
+            "name": "hamzaoui",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 5406,
+            "name": "PH-RY | فراي",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 5429,
+            "name": "LOOK TM",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 5630,
+            "name": "Een Bakery",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 5720,
+            "name": "Beya Marzouk",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 5726,
+            "name": "Een ايين",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 5762,
+            "name": "Monkey Two Advertising",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 5763,
+            "name": "Mouvement Des Jeunes Progressistes",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 5789,
+            "name": "STB BANK",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 5858,
+            "name": "Monarc",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 5859,
+            "name": "Lyspharma",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 23001,
+            "name": "Jumpark",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 23002,
+            "name": "oikos_by_dd",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 23003,
+            "name": "Cafés Ben Yedder",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 23013,
+            "name": "POINT M Parfumeries",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 75095,
+            "name": "Fleur de Lys",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 84613,
+            "name": "DéliShake",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 88219,
+            "name": "El Mazraa",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 89114,
+            "name": "Porsche Centre Tunis",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 89115,
+            "name": "seattunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 89366,
+            "name": "Innovation page",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 89367,
+            "name": "Barista's Cafe",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 89370,
+            "name": "Barista's",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 90957,
+            "name": "Nature",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 90958,
+            "name": "Club Robotique ISAMM",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 93924,
+            "name": "Stil",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 93927,
+            "name": "Bnino",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 97512,
+            "name": "STAR_ASSURANCES_OFFICIEL",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 98221,
+            "name": "Flex Fitness",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 136416,
+            "name": "CarNet",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 136457,
+            "name": "CarNet",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 148229,
+            "name": "AMD Kitchen",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 148230,
+            "name": "Tefal.Tunisie.Officiel",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 158251,
+            "name": "CarNet",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 181721,
+            "name": "Conversell",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 181722,
+            "name": "Balti Network & Security",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 181723,
+            "name": "BrainBait",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 181724,
+            "name": "Conversell",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 187460,
+            "name": "Diggow",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 187507,
+            "name": "Orange Tunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 187633,
+            "name": "La Gazelle",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 187689,
+            "name": "Innovation Pro",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 191848,
+            "name": "Moulinex Tunisie",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 194952,
+            "name": "Samsung Electronics Tunisie",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 200124,
+            "name": "Innovation Access Pro",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 206530,
+            "name": "9 Beauty",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 239554,
+            "name": "Beya Marzouk",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 239919,
+            "name": "Flora.tn",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 244923,
+            "name": "Rowenta Tunisie",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 244924,
+            "name": "Bebio Cosmetics Tunisia",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 247962,
+            "name": "Red Pepper Agency",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 247963,
+            "name": "Shofha - شوفها",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 247964,
+            "name": "QNB Tunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 247966,
+            "name": "Shofha - شوفها",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 247967,
+            "name": "Mattel",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 247976,
+            "name": "Glovo",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 247977,
+            "name": "Glovo Tunisia",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 248276,
+            "name": "bebiocosmetics_tn",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 252396,
+            "name": "Access Content Agency",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 254041,
+            "name": "Koton Tunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 255163,
+            "name": "Mustela Afrique",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 255192,
+            "name": "Carthage Land",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 261976,
+            "name": "Orient Tunisie Électroménager",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 265121,
+            "name": "Somfy",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 295574,
+            "name": "Mama Lina Pizza & Subs",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 297620,
+            "name": "Rowenta Tunisie",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 305372,
+            "name": "Mustela Africa",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 305373,
+            "name": "Mustela Africa",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 309306,
+            "name": "orange_tunisie",
+            "social_type": "tiktok",
+            "managed": 1
+        },
+        {
+            "id": 318703,
+            "name": "Sporology",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 318704,
+            "name": "unknown",
+            "social_type": "instagram",
+            "managed": 1
+        },
+        {
+            "id": 324553,
+            "name": "ParcoursFrance",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 329698,
+            "name": "Access chaine test",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 331186,
+            "name": "Innovation access pro",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 331576,
+            "name": "Dar el Mouna - دار المونة",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 333076,
+            "name": "MUniversity",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 333077,
+            "name": "AUHO Accessories",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 343912,
+            "name": "Your Touch",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 345790,
+            "name": "Orange Tunisie",
+            "social_type": "linkedin",
+            "managed": 1
+        },
+        {
+            "id": 355506,
+            "name": "Jaou Tunis",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 360989,
+            "name": "shidono",
+            "social_type": "youtube",
+            "managed": 1
+        },
+        {
+            "id": 360991,
+            "name": "Foot Africa",
+            "social_type": "youtube",
+            "managed": 1
+        },
+        {
+            "id": 361031,
+            "name": "Mohamed Boubakri",
+            "social_type": "youtube",
+            "managed": 1
+        },
+        {
+            "id": 363307,
+            "name": "Fadoua Harboub",
+            "social_type": "youtube",
+            "managed": 1
+        },
+        {
+            "id": 363874,
+            "name": "Djebbi Souad",
+            "social_type": "youtube",
+            "managed": 1
+        },
+        {
+            "id": 416125,
+            "name": "Maison Chahia",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 426629,
+            "name": "Orange Tn",
+            "social_type": "ytb",
+            "managed": 1
+        },
+        {
+            "id": 436671,
+            "name": "Safoua - صفوة",
+            "social_type": "facebook",
+            "managed": 1
+        },
+        {
+            "id": 468854,
+            "name": "Petromin Express",
+            "social_type": "instagram",
+            "managed": 1
+        }
+    ]
+}
