@@ -9,7 +9,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='etl_pipeline',
+    dag_id='ods_to_dw',
     default_args=default_args,
     schedule_interval=None,
     catchup=False,
