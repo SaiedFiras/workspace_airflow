@@ -146,13 +146,13 @@ with DAG(
             COALESCE(
                 NULLIF(type, ''), 
                 CASE 
+                    WHEN type = 'storie' THEN 'story'
                     WHEN status_type = 'added_photos' THEN 'photo'
                     WHEN status_type = 'added_video' THEN 'video'
                     WHEN status_type = 'mobile_status_update' THEN 'reels'
                     WHEN status_type = 'shared_story' THEN 'story'
                     WHEN status_type = 'storie_photo' THEN 'story'
                     WHEN status_type = 'storie_video' THEN 'story'
-                    WHEN type = 'storie' THEN 'story'
                     ELSE NULL
                 END
             ) AS post_type,
@@ -169,6 +169,10 @@ with DAG(
         WHERE is_deleted = 0
             AND page_id IN (
                 SELECT id FROM stg_clients
+                WHERE LOWER(social_type) NOT IN ('ytb', 'youtube', 'tiktok', 'linkedin')
+            )
+            OR page_id IN (
+                SELECT id FROM stg_unmanaged_clients
                 WHERE LOWER(social_type) NOT IN ('ytb', 'youtube', 'tiktok', 'linkedin')
             )
         ON CONFLICT (post_id) DO NOTHING;
@@ -218,8 +222,10 @@ with DAG(
             key AS country,
             value::INT AS nb_fans
         FROM stg_insights s, 
-             LATERAL json_each_text(s.page_fans_country)
-        WHERE s.page_fans_country IS NOT NULL
+             LATERAL json_each_text(s.page_fans_country::json)
+        WHERE s.page_fans_country IS NOT NULL 
+            AND s.page_fans_country NOT IN ('0', '[]', '{}') 
+            AND s.page_fans_country != ''
         ON CONFLICT (insight_id, country) DO NOTHING;
         """
     )
@@ -235,8 +241,10 @@ with DAG(
             key AS city,
             value::INT AS nb_fans
         FROM stg_insights s, 
-             LATERAL json_each_text(s.page_fans_city)
+             LATERAL json_each_text(s.page_fans_city::json)
         WHERE s.page_fans_city IS NOT NULL
+            AND s.page_fans_city NOT IN ('0', '[]', '{}') 
+            AND s.page_fans_city != ''
         ON CONFLICT (insight_id, city) DO NOTHING;
         """
     )
@@ -252,14 +260,57 @@ with DAG(
             key AS locale,
             value::INT AS nb_fans
         FROM stg_insights s, 
-             LATERAL json_each_text(s.page_fans_locale)
+             LATERAL json_each_text(s.page_fans_locale::json)
         WHERE s.page_fans_locale IS NOT NULL
+            AND s.page_fans_locale NOT IN ('0', '[]', '{}') 
+            AND s.page_fans_locale != ''
         ON CONFLICT (insight_id, locale) DO NOTHING;
         """
     )
 
+    clean_null = SQLExecuteQueryOperator(
+        task_id="clean_all_null",
+        conn_id="postgres",
+        sql="""
+        -- Nettoyage de ods_clients
+        UPDATE ods_clients
+        SET name = NULLIF(TRIM(name), ''),
+            type = NULLIF(TRIM(type), ''),
+            picture = NULLIF(TRIM(picture), '');
+
+        -- Nettoyage de ods_posts
+        UPDATE ods_posts
+        SET message = NULLIF(TRIM(message), ''),
+            post_type = NULLIF(TRIM(post_type), ''),
+            is_real = NULLIF(TRIM(is_real), '');
+
+        -- Nettoyage de ods_insights
+        UPDATE ods_insights
+        SET page_fans = NULLIF(page_fans, 0),
+            page_fan_adds = NULLIF(page_fan_adds, 0),
+            page_fan_removes = NULLIF(page_fan_removes, 0),
+            page_engaged_users = NULLIF(page_engaged_users, 0),
+            page_impressions_unique = NULLIF(page_impressions_unique, 0),
+            page_impressions_organic_unique_v2 = NULLIF(page_impressions_organic_unique_v2, 0),
+            page_impressions_paid_unique = NULLIF(page_impressions_paid_unique, 0),
+            page_post_engagements = NULLIF(page_post_engagements, 0),
+            page_fans_online_per_day = NULLIF(page_fans_online_per_day, 0),
+            page_impressions = NULLIF(page_impressions, 0),
+            page_impressions_organic_v2 = NULLIF(page_impressions_organic_v2, 0),
+            page_impressions_paid = NULLIF(page_impressions_paid, 0),
+            page_follows = NULLIF(page_follows, 0);
+
+        -- Nettoyage de ods_fans_country, city, locale
+        UPDATE ods_fans_country SET country = NULLIF(TRIM(country), '') WHERE TRUE;
+        UPDATE ods_fans_city SET city = NULLIF(TRIM(city), '') WHERE TRUE;
+        UPDATE ods_fans_locale SET locale = NULLIF(TRIM(locale), '') WHERE TRUE;
+        """
+    )
+
+
     (
         drop_ods_tables >> create_ods_tables >>
         ods_clients >> ods_posts >> ods_insights >>
-        ods_fans_country >> ods_fans_city >> ods_fans_locale
+        ods_fans_country >> ods_fans_city >> ods_fans_locale >>
+        clean_null
     )
