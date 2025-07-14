@@ -25,6 +25,7 @@ with DAG(
         DROP TABLE IF EXISTS ods_fans_country CASCADE;
         DROP TABLE IF EXISTS ods_fans_city CASCADE;
         DROP TABLE IF EXISTS ods_fans_locale CASCADE;
+        DROP TABLE IF EXISTS ods_data_video;
         """
     )
 
@@ -32,6 +33,7 @@ with DAG(
         task_id="create_ods_tables",
         conn_id="postgres",
         sql="""
+        
         CREATE TABLE IF NOT EXISTS ods_clients (
             client_id INT PRIMARY KEY,
             name VARCHAR,
@@ -55,7 +57,8 @@ with DAG(
             reactions INT,
             is_real VARCHAR,
             created_at TIMESTAMP,
-            updated_at TIMESTAMP
+            updated_at TIMESTAMP,
+            FOREIGN KEY (client_id) REFERENCES clients(id)
         );
 
         CREATE TABLE IF NOT EXISTS ods_insights (
@@ -74,32 +77,50 @@ with DAG(
             page_impressions INTEGER,
             page_impressions_organic_v2 INTEGER,
             page_impressions_paid INTEGER,
-            page_follows BIGINT
+            page_follows BIGINT,
+            FOREIGN KEY (client_id) REFERENCES clients(id)
         );
 
         CREATE TABLE IF NOT EXISTS ods_fans_country (
+            city_id BIGSERIAL PRIMARY KEY,
             insight_id BIGINT,
             client_id INT,
             insight_date DATE,
             country VARCHAR,
             nb_fans INT,
-            PRIMARY KEY (insight_id, country)
+            FOREIGN KEY (insight_id) REFERENCES insights(id),
+            FOREIGN KEY (client_id) REFERENCES clients(id)
         );
         CREATE TABLE IF NOT EXISTS ods_fans_city (
+            city_id BIGSERIAL PRIMARY KEY,
             insight_id BIGINT,
             client_id INT,
             insight_date DATE,
             city VARCHAR,
             nb_fans INT,
-            PRIMARY KEY (insight_id, city)
+            FOREIGN KEY (insight_id) REFERENCES insights(id),
+            FOREIGN KEY (client_id) REFERENCES clients(id)
         );
         CREATE TABLE IF NOT EXISTS ods_fans_locale (
+            locale_id BIGSERIAL PRIMARY KEY,
             insight_id BIGINT,
             client_id INT,
             insight_date DATE,
             locale VARCHAR,
             nb_fans INT,
-            PRIMARY KEY (insight_id, locale)
+            FOREIGN KEY (insight_id) REFERENCES insights(id),
+            FOREIGN KEY (client_id) REFERENCES clients(id)
+        );
+
+        CREATE TABLE IF NOT EXISTS ods_data_video (
+            post_id INTEGER PRIMARY KEY,
+            total_video_views INTEGER,
+            total_video_views_paid INTEGER,
+            total_video_views_organic INTEGER,
+            total_video_views_autoplayed INTEGER,
+            total_video_views_clicked_to_play INTEGER,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (post_id) REFERENCES ods_posts(id)
         );
         """
     )
@@ -259,8 +280,8 @@ with DAG(
             s.day AS insight_date,
             key AS locale,
             value::INT AS nb_fans
-        FROM stg_insights s, 
-             LATERAL json_each_text(s.page_fans_locale::json)
+        FROM stg_insights s
+        CROSS JOIN LATERALLATERAL json_each_text(s.page_fans_locale::json)
         WHERE s.page_fans_locale IS NOT NULL
             AND s.page_fans_locale NOT IN ('0', '[]', '{}') 
             AND s.page_fans_locale != ''
@@ -268,10 +289,42 @@ with DAG(
         """
     )
 
+    ods_data_video = SQLExecuteQueryOperator(
+        task_id="ods_data_video",
+        conn_id="postgres",
+        sql="""
+        INSERT INTO ods_data_video (
+            post_id,
+            total_video_views,
+            total_video_views_paid,
+            total_video_views_organic,
+            total_video_views_autoplayed,
+            total_video_views_clicked_to_play
+        )
+        SELECT
+            p.id AS post_id,
+            (p.data::json->'data'->>'total_video_views')::INT AS total_video_views,
+            (p.data::json->'data'->>'total_video_views_paid')::INT AS total_video_views_paid,
+            (p.data::json->'data'->>'total_video_views_organic')::INT AS total_video_views_organic,
+            (p.data::json->'data'->>'total_video_views_autoplayed')::INT AS total_video_views_autoplayed,
+            (p.data::json->'data'->>'total_video_views_clicked_to_play')::INT AS total_video_views_clicked_to_play
+        FROM stg_posts p
+        WHERE p.data IS NOT NULL
+            AND s.data NOT IN ('0', '[]', '{}') 
+            AND s.data != ''
+        ON CONFLICT (post_id) DO NOTHING;
+        """
+    )
+
     clean_null = SQLExecuteQueryOperator(
         task_id="clean_all_null",
         conn_id="postgres",
         sql="""
+        -- Nettoyage Colonne Post_type dans ods_posts
+        UPDATE ods_posts
+        SET post_type = 'story' 
+        WHERE post_type = 'storie';
+
         -- Nettoyage de ods_clients
         UPDATE ods_clients
         SET name = NULLIF(TRIM(name), ''),
