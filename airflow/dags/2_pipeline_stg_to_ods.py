@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from datetime import datetime
 
 default_args = {
@@ -51,14 +52,18 @@ with DAG(
             post_type VARCHAR,
             creation_time TIMESTAMP,
             message TEXT,
+            comments INT,
             likes INT,
             shares INT,
             views INT,
+            clicks INT,
             reactions INT,
+            reach INT,
+            reach_organic INT,
+            reach_paid INT,
             is_real VARCHAR,
-            created_at TIMESTAMP,
-            updated_at TIMESTAMP,
-            FOREIGN KEY (client_id) REFERENCES clients(id)
+            post_clicks_by_type TEXT,
+            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
         );
 
         CREATE TABLE IF NOT EXISTS ods_insights (
@@ -78,38 +83,41 @@ with DAG(
             page_impressions_organic_v2 INTEGER,
             page_impressions_paid INTEGER,
             page_follows BIGINT,
-            FOREIGN KEY (client_id) REFERENCES clients(id)
+            page_fans_country TEXT,
+            page_fans_city TEXT,
+            page_fans_locale TEXT,
+            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
         );
 
         CREATE TABLE IF NOT EXISTS ods_fans_country (
-            city_id BIGSERIAL PRIMARY KEY,
             insight_id BIGINT,
             client_id INT,
             insight_date DATE,
             country VARCHAR,
             nb_fans INT,
-            FOREIGN KEY (insight_id) REFERENCES insights(id),
-            FOREIGN KEY (client_id) REFERENCES clients(id)
+            PRIMARY KEY (insight_id, country),
+            FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
+            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
         );
         CREATE TABLE IF NOT EXISTS ods_fans_city (
-            city_id BIGSERIAL PRIMARY KEY,
             insight_id BIGINT,
             client_id INT,
             insight_date DATE,
             city VARCHAR,
             nb_fans INT,
-            FOREIGN KEY (insight_id) REFERENCES insights(id),
-            FOREIGN KEY (client_id) REFERENCES clients(id)
+            PRIMARY KEY (insight_id, city),
+            FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
+            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
         );
         CREATE TABLE IF NOT EXISTS ods_fans_locale (
-            locale_id BIGSERIAL PRIMARY KEY,
             insight_id BIGINT,
             client_id INT,
             insight_date DATE,
             locale VARCHAR,
             nb_fans INT,
-            FOREIGN KEY (insight_id) REFERENCES insights(id),
-            FOREIGN KEY (client_id) REFERENCES clients(id)
+            PRIMARY KEY (insight_id, locale),
+            FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
+            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
         );
 
         CREATE TABLE IF NOT EXISTS ods_data_video (
@@ -120,7 +128,7 @@ with DAG(
             total_video_views_autoplayed INTEGER,
             total_video_views_clicked_to_play INTEGER,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (post_id) REFERENCES ods_posts(id)
+            FOREIGN KEY (post_id) REFERENCES ods_posts(post_id)
         );
         """
     )
@@ -167,25 +175,29 @@ with DAG(
             COALESCE(
                 NULLIF(type, ''), 
                 CASE 
-                    WHEN type = 'storie' THEN 'story'
-                    WHEN status_type = 'added_photos' THEN 'photo'
-                    WHEN status_type = 'added_video' THEN 'video'
-                    WHEN status_type = 'mobile_status_update' THEN 'reels'
-                    WHEN status_type = 'shared_story' THEN 'story'
-                    WHEN status_type = 'storie_photo' THEN 'story'
-                    WHEN status_type = 'storie_video' THEN 'story'
+                    WHEN type = 'storie' THEN 'Story'
+                    WHEN url IS NOT NULL AND url LIKE '/reel/%' THEN 'Reels'
+                    WHEN status_type = 'added_photos' THEN 'Photo'
+                    WHEN status_type = 'added_video' THEN 'Video'
+                    WHEN status_type = 'mobile_status_update' THEN 'Reels'
+                    WHEN status_type IN ('shared_story', 'storie_photo', 'storie_video') THEN 'Story'
+                    WHEN (type IS NULL OR type = '') AND (status_type IS NULL OR status_type = '') THEN 'Texte'
                     ELSE NULL
                 END
             ) AS post_type,
             creation_time,
             message,
+            comments,
             likes,
             shares,
             views,
-            reactions,
-            is_real,
-            created_at,
-            updated_at
+            clicks,
+            COALESCE(likes, 0) + COALESCE(wow, 0) + COALESCE(sad, 0) + COALESCE(haha, 0) +
+            COALESCE(angry, 0) + COALESCE(love, 0) + COALESCE(thankful, 0) AS reactions,
+            reach,
+            reach_organic,
+            reach_paid,
+            is_real
         FROM stg_posts
         WHERE is_deleted = 0
             AND page_id IN (
@@ -221,7 +233,10 @@ with DAG(
             page_impressions,
             page_impressions_organic_v2,
             page_impressions_paid,
-            page_follows
+            page_follows,
+            page_fans_country TEXT,
+            page_fans_city TEXT,
+            page_fans_locale TEXT
         FROM stg_insights
         WHERE page_id IN (
             SELECT id FROM stg_clients
@@ -237,16 +252,22 @@ with DAG(
         sql="""
         INSERT INTO ods_fans_country (insight_id, client_id, insight_date, country, nb_fans)
         SELECT
-            s.id AS insight_id,
-            s.page_id AS client_id,
-            s.day AS insight_date,
+            o.insight_id AS insight_id,
+            o.client_id AS client_id,
+            o.insight_date AS insight_date,
             key AS country,
             value::INT AS nb_fans
-        FROM stg_insights s, 
-             LATERAL json_each_text(s.page_fans_country::json)
-        WHERE s.page_fans_country IS NOT NULL 
-            AND s.page_fans_country NOT IN ('0', '[]', '{}') 
-            AND s.page_fans_country != ''
+        FROM ods_insights o 
+        CROSS JOIN LATERAL json_each_text(
+            CASE
+                WHEN o.page_fans_country IS NOT NULL AND o.page_fans_country != '' AND LEFT(TRIM(o.page_fans_country), 1) != '{'
+                THEN '{' || o.page_fans_country || '}'
+                ELSE o.page_fans_country
+            END::json
+        )
+        WHERE o.page_fans_country IS NOT NULL 
+            AND o.page_fans_country NOT IN ('0', '[]', '{}') 
+            AND o.page_fans_country != ''
         ON CONFLICT (insight_id, country) DO NOTHING;
         """
     )
@@ -256,16 +277,22 @@ with DAG(
         sql="""
         INSERT INTO ods_fans_city (insight_id, client_id, insight_date, city, nb_fans)
         SELECT
-            s.id AS insight_id,
-            s.page_id AS client_id,
-            s.day AS insight_date,
+            o.insight_id AS insight_id,
+            o.client_id AS client_id,
+            o.insight_date AS insight_date,
             key AS city,
             value::INT AS nb_fans
-        FROM stg_insights s, 
-             LATERAL json_each_text(s.page_fans_city::json)
-        WHERE s.page_fans_city IS NOT NULL
-            AND s.page_fans_city NOT IN ('0', '[]', '{}') 
-            AND s.page_fans_city != ''
+        FROM ods_insights o 
+        CROSS JOIN LATERAL json_each_text(
+            CASE
+                WHEN o.page_fans_city IS NOT NULL AND o.page_fans_city != '' AND LEFT(TRIM(o.page_fans_city), 1) != '{'
+                THEN '{' || o.page_fans_city || '}'
+                ELSE o.page_fans_city
+            END::json
+        )
+        WHERE o.page_fans_city IS NOT NULL
+            AND o.page_fans_city NOT IN ('0', '[]', '{}') 
+            AND o.page_fans_city != ''
         ON CONFLICT (insight_id, city) DO NOTHING;
         """
     )
@@ -275,16 +302,30 @@ with DAG(
         sql="""
         INSERT INTO ods_fans_locale (insight_id, client_id, insight_date, locale, nb_fans)
         SELECT
-            s.id AS insight_id,
-            s.page_id AS client_id,
-            s.day AS insight_date,
+            o.insight_id AS insight_id,
+            o.client_id AS client_id,
+            o.insight_date AS insight_date,
             key AS locale,
             value::INT AS nb_fans
-        FROM stg_insights s
-        CROSS JOIN LATERALLATERAL json_each_text(s.page_fans_locale::json)
-        WHERE s.page_fans_locale IS NOT NULL
-            AND s.page_fans_locale NOT IN ('0', '[]', '{}') 
-            AND s.page_fans_locale != ''
+        FROM ods_insights o
+        CROSS JOIN LATERAL json_each_text(
+            CASE
+                WHEN o.page_fans_locale IS NULL OR TRIM(o.page_fans_locale) = ''
+                    THEN NULL
+                WHEN LEFT(TRIM(o.page_fans_locale), 1) = '{' AND RIGHT(TRIM(o.page_fans_locale), 2) = '}}'
+                    THEN LEFT(TRIM(o.page_fans_locale), LENGTH(TRIM(o.page_fans_locale))-1)
+                WHEN LEFT(TRIM(o.page_fans_locale), 1) = '{' AND RIGHT(TRIM(o.page_fans_locale), 1) = '}'
+                    THEN TRIM(o.page_fans_locale)
+                WHEN LEFT(TRIM(o.page_fans_locale), 1) <> '{' AND RIGHT(TRIM(o.page_fans_locale), 1) = '}'
+                    THEN '{' || TRIM(o.page_fans_locale)
+                WHEN LEFT(TRIM(o.page_fans_locale), 1) = '{' AND RIGHT(TRIM(o.page_fans_locale), 1) <> '}'
+                    THEN TRIM(o.page_fans_locale) || '}'
+                ELSE '{' || TRIM(o.page_fans_locale) || '}'
+            END::json
+        )
+        WHERE o.page_fans_locale IS NOT NULL
+            AND o.page_fans_locale NOT IN ('0', '[]', '{}')
+            AND o.page_fans_locale != ''
         ON CONFLICT (insight_id, locale) DO NOTHING;
         """
     )
@@ -310,11 +351,13 @@ with DAG(
             (p.data::json->'data'->>'total_video_views_clicked_to_play')::INT AS total_video_views_clicked_to_play
         FROM stg_posts p
         WHERE p.data IS NOT NULL
-            AND s.data NOT IN ('0', '[]', '{}') 
-            AND s.data != ''
+            AND p.data NOT IN ('0', '[]', '{}') 
+            AND p.data != ''
         ON CONFLICT (post_id) DO NOTHING;
         """
     )
+
+    
 
     clean_null = SQLExecuteQueryOperator(
         task_id="clean_all_null",
@@ -322,7 +365,7 @@ with DAG(
         sql="""
         -- Nettoyage Colonne Post_type dans ods_posts
         UPDATE ods_posts
-        SET post_type = 'story' 
+        SET post_type = 'Story' 
         WHERE post_type = 'storie';
 
         -- Nettoyage de ods_clients
@@ -360,10 +403,19 @@ with DAG(
         """
     )
 
+    trigger_ods_to_dw = TriggerDagRunOperator(
+    task_id="trigger_ods_to_dw",
+    trigger_dag_id="ods_to_dw",
+    wait_for_completion=False,
+    dag=dag
+    )
+
 
     (
         drop_ods_tables >> create_ods_tables >>
         ods_clients >> ods_posts >> ods_insights >>
         ods_fans_country >> ods_fans_city >> ods_fans_locale >>
-        clean_null
+        ods_data_video >>
+        clean_null >>
+        trigger_ods_to_dw
     )

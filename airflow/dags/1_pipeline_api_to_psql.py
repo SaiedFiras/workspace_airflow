@@ -1,4 +1,5 @@
 from airflow import DAG
+from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.providers.common.sql.operators.sql import SQLExecuteQueryOperator
 from airflow.operators.python import PythonOperator
 from airflow.hooks.base import BaseHook
@@ -20,7 +21,7 @@ dag = DAG(
     catchup=False,
 )
 
-# Drop tables pour permettre l'évolution du modèle sans erreur
+# Drop tables pour permettre l'évolution du modèle si jamais je modifie les tables
 drop_all_table = SQLExecuteQueryOperator(
     task_id='drop_all_stg_table',
     conn_id='postgres',
@@ -180,14 +181,14 @@ create_stg_insights_table = SQLExecuteQueryOperator(
     dag=dag,
 )
 
-def remove_nul_chars(val):
+def remove_nul_chars(val): # Suppression des caracteres nuls 
     if isinstance(val, str):
         return val.replace('\x00', '')
     return val
 
 def fill_managed_stg_tables(**kwargs):
-    managed_json = "/opt/airflow/datasets/export-all-managed-pages.json"
-    conn_details = BaseHook.get_connection('postgres')
+    managed_json = "/opt/airflow/datasets/export-all-managed-pages.json" #Le fichier des clients managé 
+    conn_details = BaseHook.get_connection('postgres') #Le hook pour se connecter a la base postgres
     engine = create_engine(f'postgresql+psycopg2://{conn_details.login}:{conn_details.password}@{conn_details.host}:{conn_details.port}/{conn_details.schema}')
 
     with engine.connect() as connection:
@@ -288,6 +289,13 @@ fill_unmanaged_stg_tables_task = PythonOperator(
     dag=dag,
 )
 
+trigger_stg_to_ods = TriggerDagRunOperator(
+    task_id="trigger_stg_to_ods",
+    trigger_dag_id="stg_to_ods",
+    wait_for_completion=False,
+    dag=dag
+)
+
 # Dépendances
 (
     drop_all_table >>
@@ -296,7 +304,8 @@ fill_unmanaged_stg_tables_task = PythonOperator(
     create_stg_posts_table >>
     create_stg_insights_table >>
     fill_managed_stg_tables_task >>
-    fill_unmanaged_stg_tables_task
+    fill_unmanaged_stg_tables_task >>
+    trigger_stg_to_ods
 )
 
 

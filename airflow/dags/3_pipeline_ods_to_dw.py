@@ -23,7 +23,6 @@ with DAG(
         DROP TABLE IF EXISTS fact_posts CASCADE;
         DROP TABLE IF EXISTS fact_insights CASCADE;
         DROP TABLE IF EXISTS fact_fan_demographics CASCADE;
-        DROP TABLE IF EXISTS fact_data_video CASCADE;
         DROP TABLE IF EXISTS dim_client CASCADE;
         DROP TABLE IF EXISTS dim_post_type CASCADE;
         DROP TABLE IF EXISTS dim_date CASCADE;
@@ -78,14 +77,24 @@ with DAG(
             date_id INT REFERENCES dim_date(date_id),
             post_type_id INT REFERENCES dim_post_type(post_type_id),
             social_type VARCHAR,
-            message TEXT,
             likes INT,
+            comments INT,
             shares INT,
             views INT,
+            clicks INT,
             reactions INT,
-            is_real VARCHAR,
-            created_at TIMESTAMP,
-            updated_at TIMESTAMP
+            reach INT,
+            reach_organic INT,
+            reach_paid INT,
+            total_video_views INT,
+            total_video_views_paid INT,
+            total_video_views_organic INT,
+            total_video_views_autoplayed INT,
+            total_video_views_clicked_to_play INT,
+            photo_view INT,
+            link_clicks INT,
+            other_clicks INT,
+            is_real VARCHAR
         );
 
         -- Fait Insights (KPI par jour/client)
@@ -112,21 +121,12 @@ with DAG(
         CREATE TABLE IF NOT EXISTS fact_fan_demographics (
             fact_id SERIAL PRIMARY KEY,
             insight_id BIGINT,
-            client_id INT,
-            date_id INT,
+            client_id INT REFERENCES dim_client(client_id),
+            date_id INT REFERENCES dim_date(date_id),
             location_id INT REFERENCES dim_location(location_id),
             nb_fans INT
         );
 
-        -- Fait Data vidéo
-        CREATE TABLE IF NOT EXISTS fact_data_video (
-            post_id BIGINT PRIMARY KEY,
-            total_video_views INTEGER,
-            total_video_views_paid INTEGER,
-            total_video_views_organic INTEGER,
-            total_video_views_autoplayed INTEGER,
-            total_video_views_clicked_to_play INTEGER
-        );
         """
     )
 
@@ -199,7 +199,11 @@ with DAG(
         conn_id="postgres",
         sql="""
         INSERT INTO fact_posts (
-            post_id, client_id, date_id, post_type_id, social_type, message, likes, shares, views, reactions, is_real, created_at, updated_at
+            post_id, client_id, date_id, post_type_id, social_type, comments, likes, shares, views, clicks,
+            reactions, reach, reach_organic, reach_paid, is_real,
+            total_video_views, total_video_views_paid, total_video_views_organic, 
+            total_video_views_autoplayed, total_video_views_clicked_to_play, 
+            photo_view, link_clicks, other_clicks 
         )
         SELECT
             o.post_id,
@@ -207,17 +211,28 @@ with DAG(
             d.date_id,
             pt.post_type_id,
             o.social_type,
-            o.message,
+            o.comments,
             o.likes,
             o.shares,
             o.views,
+            o.clicks,
             o.reactions,
+            o.reach,
+            o.reach_organic,
+            o.reach_paid,
             o.is_real,
-            o.created_at,
-            o.updated_at
+            v.total_video_views,
+            v.total_video_views_paid,
+            v.total_video_views_organic,
+            v.total_video_views_autoplayed,
+            v.total_video_views_clicked_to_play,
+            (o.post_clicks_by_type::json->>'photo view')::int,
+            (o.post_clicks_by_type::json->>'link clicks')::int,
+            (o.post_clicks_by_type::json->>'other clicks')::int
         FROM ods_posts o
         LEFT JOIN dim_date d ON o.creation_time::date = d.full_date
         LEFT JOIN dim_post_type pt ON o.post_type = pt.label
+        LEFT JOIN ods_data_video v ON o.post_id = v.post_id
         ON CONFLICT (post_id) DO NOTHING;
         """
     )
@@ -255,27 +270,7 @@ with DAG(
         ON CONFLICT (insight_id) DO NOTHING;
         """
     )
-
-    # VIDEO DATA (table déjà extraite depuis ODS)
-    fact_data_video = SQLExecuteQueryOperator(
-        task_id="fact_data_video",
-        conn_id="postgres",
-        sql="""
-        INSERT INTO fact_data_video (
-            post_id, total_video_views, total_video_views_paid, total_video_views_organic,
-            total_video_views_autoplayed, total_video_views_clicked_to_play
-        )
-        SELECT
-            post_id,
-            total_video_views,
-            total_video_views_paid,
-            total_video_views_organic,
-            total_video_views_autoplayed,
-            total_video_views_clicked_to_play
-        FROM ods_data_video
-        ON CONFLICT (post_id) DO NOTHING;
-        """
-    )
+    
 
     # FAN DEMOGRAPHICS (UNIFICATION)
     fact_fan_demographics = SQLExecuteQueryOperator(
@@ -328,5 +323,5 @@ with DAG(
     (
         drop_dw_tables >> create_dw_tables >>
         dim_date >> dim_client >> dim_post_type >> dim_location >>
-        fact_posts >> fact_insights >> fact_data_video >> fact_fan_demographics
+        fact_posts >> fact_insights >> fact_fan_demographics
     )
