@@ -585,3 +585,28 @@ File Path                              PID    Runtime      # DAGs    # Errors  L
 /opt/airflow/dags/etl_calories_dag.py                           1           0  0.70s           2025-02-12T20:16:19                      12
 /opt/airflow/dags/welcom_dag.py                                 1           0  0.30s           2025-02-12T20:16:16                      12
 ================================================================================
+[2025-08-06T14:13:54.169+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2025-08-06T14:13:54.170+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2025-08-06T14:13:54.176+0000] {manager.py:485} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2025-08-06T14:13:54.177+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2025-08-06T14:13:54.350+0000] {manager.py:824} INFO - There are 3 files in /opt/airflow/dags
+[2025-08-06T14:13:54.633+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                      PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run      Last # of DB Queries
+-------------------------------------------  -----  ---------  --------  ----------  --------------  ----------  ----------------------
+/opt/airflow/dags/1_pipeline_api_to_psql.py    175  0.03s             0           0                                                   0
+/opt/airflow/dags/2_pipeline_stg_to_ods.py                            0           0                                                   0
+/opt/airflow/dags/3_pipeline_ods_to_dw.py      172  0.10s             0           0                                                   0
+================================================================================
+[2025-08-06T14:14:25.136+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                      PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+-------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/3_pipeline_ods_to_dw.py      187  0.02s             1           0  0.25s           2025-08-06T14:13:54                      10
+/opt/airflow/dags/1_pipeline_api_to_psql.py    190  0.00s             1           0  0.22s           2025-08-06T14:13:54                      10
+/opt/airflow/dags/2_pipeline_stg_to_ods.py                            1           0  0.13s           2025-08-06T14:13:54                      10
+================================================================================

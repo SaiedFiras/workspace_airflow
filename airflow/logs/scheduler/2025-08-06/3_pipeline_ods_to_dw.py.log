@@ -1,0 +1,28 @@
+[2025-08-06T14:13:54.558+0000] {processor.py:186} INFO - Started process (PID=172) to work on /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:13:54.560+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/3_pipeline_ods_to_dw.py for tasks to queue
+[2025-08-06T14:13:54.565+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.564+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:13:54.603+0000] {processor.py:925} INFO - DAG(s) 'ods_to_dw' retrieved from /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:13:54.677+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.677+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:13:54.734+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.733+0000] {dag.py:4180} INFO - Setting next_dagrun for ods_to_dw to None, run_after=None
+[2025-08-06T14:13:54.772+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/3_pipeline_ods_to_dw.py took 0.222 seconds
+[2025-08-06T14:14:25.144+0000] {processor.py:186} INFO - Started process (PID=187) to work on /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:14:25.145+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/3_pipeline_ods_to_dw.py for tasks to queue
+[2025-08-06T14:14:25.149+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.149+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:14:25.177+0000] {processor.py:925} INFO - DAG(s) 'ods_to_dw' retrieved from /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:14:25.210+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.210+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:14:25.228+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.227+0000] {dag.py:4180} INFO - Setting next_dagrun for ods_to_dw to None, run_after=None
+[2025-08-06T14:14:25.251+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/3_pipeline_ods_to_dw.py took 0.116 seconds
+[2025-08-06T14:14:55.612+0000] {processor.py:186} INFO - Started process (PID=202) to work on /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:14:55.613+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/3_pipeline_ods_to_dw.py for tasks to queue
+[2025-08-06T14:14:55.615+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.615+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:14:55.639+0000] {processor.py:925} INFO - DAG(s) 'ods_to_dw' retrieved from /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:14:55.670+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.670+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:14:55.688+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.688+0000] {dag.py:4180} INFO - Setting next_dagrun for ods_to_dw to None, run_after=None
+[2025-08-06T14:14:55.712+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/3_pipeline_ods_to_dw.py took 0.106 seconds
+[2025-08-06T14:15:26.037+0000] {processor.py:186} INFO - Started process (PID=217) to work on /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:15:26.038+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/3_pipeline_ods_to_dw.py for tasks to queue
+[2025-08-06T14:15:26.040+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.040+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:15:26.063+0000] {processor.py:925} INFO - DAG(s) 'ods_to_dw' retrieved from /opt/airflow/dags/3_pipeline_ods_to_dw.py
+[2025-08-06T14:15:26.095+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.095+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:15:26.111+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.111+0000] {dag.py:4180} INFO - Setting next_dagrun for ods_to_dw to None, run_after=None
+[2025-08-06T14:15:26.136+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/3_pipeline_ods_to_dw.py took 0.106 seconds

@@ -1,0 +1,28 @@
+[2025-08-06T14:13:54.812+0000] {processor.py:186} INFO - Started process (PID=180) to work on /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:13:54.813+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/2_pipeline_stg_to_ods.py for tasks to queue
+[2025-08-06T14:13:54.815+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.815+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:13:54.838+0000] {processor.py:925} INFO - DAG(s) 'stg_to_ods' retrieved from /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:13:54.872+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.871+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:13:54.889+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.889+0000] {dag.py:4180} INFO - Setting next_dagrun for stg_to_ods to None, run_after=None
+[2025-08-06T14:13:54.912+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/2_pipeline_stg_to_ods.py took 0.107 seconds
+[2025-08-06T14:14:25.301+0000] {processor.py:186} INFO - Started process (PID=197) to work on /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:14:25.302+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/2_pipeline_stg_to_ods.py for tasks to queue
+[2025-08-06T14:14:25.305+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.304+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:14:25.330+0000] {processor.py:925} INFO - DAG(s) 'stg_to_ods' retrieved from /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:14:25.363+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.363+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:14:25.380+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.380+0000] {dag.py:4180} INFO - Setting next_dagrun for stg_to_ods to None, run_after=None
+[2025-08-06T14:14:25.402+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/2_pipeline_stg_to_ods.py took 0.107 seconds
+[2025-08-06T14:14:55.763+0000] {processor.py:186} INFO - Started process (PID=212) to work on /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:14:55.764+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/2_pipeline_stg_to_ods.py for tasks to queue
+[2025-08-06T14:14:55.767+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.766+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:14:55.794+0000] {processor.py:925} INFO - DAG(s) 'stg_to_ods' retrieved from /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:14:55.831+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.831+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:14:55.849+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.849+0000] {dag.py:4180} INFO - Setting next_dagrun for stg_to_ods to None, run_after=None
+[2025-08-06T14:14:55.873+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/2_pipeline_stg_to_ods.py took 0.116 seconds
+[2025-08-06T14:15:26.183+0000] {processor.py:186} INFO - Started process (PID=227) to work on /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:15:26.184+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/2_pipeline_stg_to_ods.py for tasks to queue
+[2025-08-06T14:15:26.186+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.186+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:15:26.209+0000] {processor.py:925} INFO - DAG(s) 'stg_to_ods' retrieved from /opt/airflow/dags/2_pipeline_stg_to_ods.py
+[2025-08-06T14:15:26.242+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.241+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:15:26.257+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.257+0000] {dag.py:4180} INFO - Setting next_dagrun for stg_to_ods to None, run_after=None
+[2025-08-06T14:15:26.278+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/2_pipeline_stg_to_ods.py took 0.102 seconds

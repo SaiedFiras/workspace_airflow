@@ -1,0 +1,28 @@
+[2025-08-06T14:13:54.630+0000] {processor.py:186} INFO - Started process (PID=175) to work on /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:13:54.632+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/1_pipeline_api_to_psql.py for tasks to queue
+[2025-08-06T14:13:54.634+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.634+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:13:54.704+0000] {processor.py:925} INFO - DAG(s) 'API_JSON_to_stg' retrieved from /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:13:54.770+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.769+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:13:54.793+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:13:54.792+0000] {dag.py:4180} INFO - Setting next_dagrun for API_JSON_to_stg to None, run_after=None
+[2025-08-06T14:13:54.813+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/1_pipeline_api_to_psql.py took 0.192 seconds
+[2025-08-06T14:14:25.156+0000] {processor.py:186} INFO - Started process (PID=190) to work on /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:14:25.157+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/1_pipeline_api_to_psql.py for tasks to queue
+[2025-08-06T14:14:25.160+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.159+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:14:25.184+0000] {processor.py:925} INFO - DAG(s) 'API_JSON_to_stg' retrieved from /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:14:25.217+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.216+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:14:25.234+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:25.234+0000] {dag.py:4180} INFO - Setting next_dagrun for API_JSON_to_stg to None, run_after=None
+[2025-08-06T14:14:25.257+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/1_pipeline_api_to_psql.py took 0.107 seconds
+[2025-08-06T14:14:55.622+0000] {processor.py:186} INFO - Started process (PID=205) to work on /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:14:55.623+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/1_pipeline_api_to_psql.py for tasks to queue
+[2025-08-06T14:14:55.625+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.625+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:14:55.649+0000] {processor.py:925} INFO - DAG(s) 'API_JSON_to_stg' retrieved from /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:14:55.679+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.679+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:14:55.699+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:14:55.699+0000] {dag.py:4180} INFO - Setting next_dagrun for API_JSON_to_stg to None, run_after=None
+[2025-08-06T14:14:55.722+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/1_pipeline_api_to_psql.py took 0.107 seconds
+[2025-08-06T14:15:26.049+0000] {processor.py:186} INFO - Started process (PID=220) to work on /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:15:26.050+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/1_pipeline_api_to_psql.py for tasks to queue
+[2025-08-06T14:15:26.052+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.052+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:15:26.075+0000] {processor.py:925} INFO - DAG(s) 'API_JSON_to_stg' retrieved from /opt/airflow/dags/1_pipeline_api_to_psql.py
+[2025-08-06T14:15:26.107+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.107+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2025-08-06T14:15:26.125+0000] {logging_mixin.py:190} INFO - [2025-08-06T14:15:26.125+0000] {dag.py:4180} INFO - Setting next_dagrun for API_JSON_to_stg to None, run_after=None
+[2025-08-06T14:15:26.148+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/1_pipeline_api_to_psql.py took 0.105 seconds
