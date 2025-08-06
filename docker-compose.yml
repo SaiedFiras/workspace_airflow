@@ -23,6 +23,7 @@ services:
       AIRFLOW__WEBSERVER__SECRET_KEY: UQuKKeYIU/1E6+tPRxPGdg==
     volumes:
       - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/dags:/opt/airflow/logs
       - ./Datasets:/opt/airflow/datasets
     ports:
       - "8080:8080"
@@ -43,6 +44,7 @@ services:
       AIRFLOW__WEBSERVER__SECRET_KEY: UQuKKeYIU/1E6+tPRxPGdg==
     volumes:
       - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/dags:/opt/airflow/logs
       - ./Datasets:/opt/airflow/datasets
     command: scheduler
     depends_on:
