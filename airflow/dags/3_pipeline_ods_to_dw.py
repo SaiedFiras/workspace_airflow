@@ -322,7 +322,8 @@ with DAG(
     # Dependancs
     (
         drop_dw_tables >> 
-        # create_dw_tables >>
         dim_date >> dim_client >> dim_post_type >> dim_location >>
         fact_posts >> fact_insights >> fact_fan_demographics
     )
+
+    # create_dw_tables >>

@@ -413,10 +413,11 @@ with DAG(
 
     (
         drop_ods_tables >> 
-        #create_ods_tables >>
         ods_clients >> ods_posts >> ods_insights >>
         ods_fans_country >> ods_fans_city >> ods_fans_locale >>
         ods_data_video >>
         clean_null >>
         trigger_ods_to_dw
     )
+
+#create_ods_tables >>

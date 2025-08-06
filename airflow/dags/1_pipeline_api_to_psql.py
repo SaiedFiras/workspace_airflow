@@ -299,14 +299,15 @@ trigger_stg_to_ods = TriggerDagRunOperator(
 # Dépendances
 (
     drop_all_table >>
+    fill_managed_stg_tables_task >>
+    fill_unmanaged_stg_tables_task >>
+    trigger_stg_to_ods    
+)
+
     # create_stg_clients_table >>
     # create_stg_unmanaged_clients_table >>
     # create_stg_posts_table >>
     # create_stg_insights_table >>
-    fill_managed_stg_tables_task >>
-    fill_unmanaged_stg_tables_task >>
-    trigger_stg_to_ods
-)
 
 
 
