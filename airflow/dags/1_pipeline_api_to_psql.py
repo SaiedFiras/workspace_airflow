@@ -9,7 +9,7 @@ import requests
 import json
 
 default_args = {
-    'owner': 'airflow',
+    'owner': 'airflow', 
     'start_date': datetime(2025, 5, 1),
     'retries': 1,
 }
@@ -23,7 +23,7 @@ dag = DAG(
 
 # Drop tables pour permettre l'évolution du modèle si jamais je modifie les tables
 drop_all_table = SQLExecuteQueryOperator(
-    task_id='drop_all_stg_table',
+    task_id='truncate_stg_table',
     conn_id='postgres',
     sql="""
         DROP TABLE IF EXISTS stg_clients CASCADE;
@@ -299,10 +299,10 @@ trigger_stg_to_ods = TriggerDagRunOperator(
 # Dépendances
 (
     drop_all_table >>
-    create_stg_clients_table >>
-    create_stg_unmanaged_clients_table >>
-    create_stg_posts_table >>
-    create_stg_insights_table >>
+    # create_stg_clients_table >>
+    # create_stg_unmanaged_clients_table >>
+    # create_stg_posts_table >>
+    # create_stg_insights_table >>
     fill_managed_stg_tables_task >>
     fill_unmanaged_stg_tables_task >>
     trigger_stg_to_ods

@@ -17,7 +17,7 @@ with DAG(
 ) as dag:
 
     drop_ods_tables = SQLExecuteQueryOperator(
-        task_id="drop_ods_tables",
+        task_id="truncate_ods_tables",
         conn_id="postgres",
         sql=""" 
         DROP TABLE IF EXISTS ods_clients CASCADE;
@@ -412,7 +412,8 @@ with DAG(
 
 
     (
-        drop_ods_tables >> create_ods_tables >>
+        drop_ods_tables >> 
+        #create_ods_tables >>
         ods_clients >> ods_posts >> ods_insights >>
         ods_fans_country >> ods_fans_city >> ods_fans_locale >>
         ods_data_video >>

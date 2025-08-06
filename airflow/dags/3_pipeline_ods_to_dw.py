@@ -15,9 +15,9 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    # 1. DROP/CREATE ALL TABLES (sécurise tes itérations)
+    # 1. DROP/CREATE ALL TABLES
     drop_dw_tables = SQLExecuteQueryOperator(
-        task_id="drop_dw_tables",
+        task_id="truncate_dw_tables",
         conn_id="postgres",
         sql="""
         DROP TABLE IF EXISTS fact_posts CASCADE;
@@ -321,7 +321,8 @@ with DAG(
 
     # Dependancs
     (
-        drop_dw_tables >> create_dw_tables >>
+        drop_dw_tables >> 
+        # create_dw_tables >>
         dim_date >> dim_client >> dim_post_type >> dim_location >>
         fact_posts >> fact_insights >> fact_fan_demographics
     )
