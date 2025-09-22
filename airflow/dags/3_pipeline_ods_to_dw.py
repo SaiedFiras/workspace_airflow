@@ -16,7 +16,7 @@ with DAG(
 ) as dag:
 
     # 1. DROP/CREATE ALL TABLES
-    drop_dw_tables = SQLExecuteQueryOperator(
+    truncate_dw_tables = SQLExecuteQueryOperator(
         task_id="truncate_dw_tables",
         conn_id="postgres",
         sql="""

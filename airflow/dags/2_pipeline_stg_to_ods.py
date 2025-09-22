@@ -16,7 +16,7 @@ with DAG(
     catchup=False,
 ) as dag:
 
-    drop_ods_tables = SQLExecuteQueryOperator(
+    truncate_ods_tables = SQLExecuteQueryOperator(
         task_id="truncate_ods_tables",
         conn_id="postgres",
         sql=""" 
