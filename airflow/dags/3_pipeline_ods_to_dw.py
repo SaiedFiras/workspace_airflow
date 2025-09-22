@@ -20,115 +20,115 @@ with DAG(
         task_id="truncate_dw_tables",
         conn_id="postgres",
         sql="""
-        DROP TABLE IF EXISTS fact_posts CASCADE;
-        DROP TABLE IF EXISTS fact_insights CASCADE;
-        DROP TABLE IF EXISTS fact_fan_demographics CASCADE;
-        DROP TABLE IF EXISTS dim_client CASCADE;
-        DROP TABLE IF EXISTS dim_post_type CASCADE;
-        DROP TABLE IF EXISTS dim_date CASCADE;
-        DROP TABLE IF EXISTS dim_location CASCADE;
+        TRUNCATE TABLE fact_posts CASCADE;
+        TRUNCATE TABLE fact_insights CASCADE;
+        TRUNCATE TABLE fact_fan_demographics CASCADE;
+        TRUNCATE TABLE dim_client CASCADE;
+        TRUNCATE TABLE dim_post_type CASCADE;
+        TRUNCATE TABLE dim_date CASCADE;
+        TRUNCATE TABLE dim_location CASCADE;
         """
     )
 
-    create_dw_tables = SQLExecuteQueryOperator(
-        task_id="create_dw_tables",
-        conn_id="postgres",
-        sql="""
-        -- Dimension Client
-        CREATE TABLE IF NOT EXISTS dim_client (
-            client_id INT PRIMARY KEY,
-            name VARCHAR,
-            managed BOOLEAN,
-            social_type VARCHAR,
-            actif BOOLEAN,
-            type VARCHAR,
-            picture TEXT
-        );
+    # create_dw_tables = SQLExecuteQueryOperator(
+    #     task_id="create_dw_tables",
+    #     conn_id="postgres",
+    #     sql="""
+    #     -- Dimension Client
+    #     CREATE TABLE IF NOT EXISTS dim_client (
+    #         client_id INT PRIMARY KEY,
+    #         name VARCHAR,
+    #         managed BOOLEAN,
+    #         social_type VARCHAR,
+    #         actif BOOLEAN,
+    #         type VARCHAR,
+    #         picture TEXT
+    #     );
 
-        -- Dimension Post Type
-        CREATE TABLE IF NOT EXISTS dim_post_type (
-            post_type_id SERIAL PRIMARY KEY,
-            label VARCHAR UNIQUE
-        );
+    #     -- Dimension Post Type
+    #     CREATE TABLE IF NOT EXISTS dim_post_type (
+    #         post_type_id SERIAL PRIMARY KEY,
+    #         label VARCHAR UNIQUE
+    #     );
 
-        -- Dimension Date
-        CREATE TABLE IF NOT EXISTS dim_date (
-            date_id SERIAL PRIMARY KEY,
-            full_date DATE UNIQUE,
-            year INT,
-            month INT,
-            day INT,
-            week INT,
-            quarter INT
-        );
+    #     -- Dimension Date
+    #     CREATE TABLE IF NOT EXISTS dim_date (
+    #         date_id SERIAL PRIMARY KEY,
+    #         full_date DATE UNIQUE,
+    #         year INT,
+    #         month INT,
+    #         day INT,
+    #         week INT,
+    #         quarter INT
+    #     );
 
-        -- Dimension Location (pays, ville, langue)
-        CREATE TABLE IF NOT EXISTS dim_location (
-            location_id SERIAL PRIMARY KEY,
-            location_type VARCHAR, -- 'country', 'city', 'locale'
-            location_label VARCHAR,
-            UNIQUE(location_type, location_label)
-        );
+    #     -- Dimension Location (pays, ville, langue)
+    #     CREATE TABLE IF NOT EXISTS dim_location (
+    #         location_id SERIAL PRIMARY KEY,
+    #         location_type VARCHAR, -- 'country', 'city', 'locale'
+    #         location_label VARCHAR,
+    #         UNIQUE(location_type, location_label)
+    #     );
 
-        -- Fait Posts (posts, vidéos, reels…)
-        CREATE TABLE IF NOT EXISTS fact_posts (
-            post_id BIGINT PRIMARY KEY,
-            client_id INT REFERENCES dim_client(client_id),
-            date_id INT REFERENCES dim_date(date_id),
-            post_type_id INT REFERENCES dim_post_type(post_type_id),
-            social_type VARCHAR,
-            likes INT,
-            comments INT,
-            shares INT,
-            views INT,
-            clicks INT,
-            reactions INT,
-            reach INT,
-            reach_organic INT,
-            reach_paid INT,
-            total_video_views INT,
-            total_video_views_paid INT,
-            total_video_views_organic INT,
-            total_video_views_autoplayed INT,
-            total_video_views_clicked_to_play INT,
-            photo_view INT,
-            link_clicks INT,
-            other_clicks INT,
-            is_real VARCHAR
-        );
+    #     -- Fait Posts (posts, vidéos, reels…)
+    #     CREATE TABLE IF NOT EXISTS fact_posts (
+    #         post_id BIGINT PRIMARY KEY,
+    #         client_id INT REFERENCES dim_client(client_id),
+    #         date_id INT REFERENCES dim_date(date_id),
+    #         post_type_id INT REFERENCES dim_post_type(post_type_id),
+    #         social_type VARCHAR,
+    #         likes INT,
+    #         comments INT,
+    #         shares INT,
+    #         views INT,
+    #         clicks INT,
+    #         reactions INT,
+    #         reach INT,
+    #         reach_organic INT,
+    #         reach_paid INT,
+    #         total_video_views INT,
+    #         total_video_views_paid INT,
+    #         total_video_views_organic INT,
+    #         total_video_views_autoplayed INT,
+    #         total_video_views_clicked_to_play INT,
+    #         photo_view INT,
+    #         link_clicks INT,
+    #         other_clicks INT,
+    #         is_real VARCHAR
+    #     );
 
-        -- Fait Insights (KPI par jour/client)
-        CREATE TABLE IF NOT EXISTS fact_insights (
-            insight_id BIGINT PRIMARY KEY,
-            client_id INT REFERENCES dim_client(client_id),
-            date_id INT REFERENCES dim_date(date_id),
-            page_fans BIGINT,
-            page_fan_adds INT,
-            page_fan_removes INT,
-            page_engaged_users INT,
-            page_impressions_unique INT,
-            page_impressions_organic_unique_v2 INT,
-            page_impressions_paid_unique INT,
-            page_post_engagements INT,
-            page_fans_online_per_day INT,
-            page_impressions INT,
-            page_impressions_organic_v2 INT,
-            page_impressions_paid INT,
-            page_follows BIGINT
-        );
+    #     -- Fait Insights (KPI par jour/client)
+    #     CREATE TABLE IF NOT EXISTS fact_insights (
+    #         insight_id BIGINT PRIMARY KEY,
+    #         client_id INT REFERENCES dim_client(client_id),
+    #         date_id INT REFERENCES dim_date(date_id),
+    #         page_fans BIGINT,
+    #         page_fan_adds INT,
+    #         page_fan_removes INT,
+    #         page_engaged_users INT,
+    #         page_impressions_unique INT,
+    #         page_impressions_organic_unique_v2 INT,
+    #         page_impressions_paid_unique INT,
+    #         page_post_engagements INT,
+    #         page_fans_online_per_day INT,
+    #         page_impressions INT,
+    #         page_impressions_organic_v2 INT,
+    #         page_impressions_paid INT,
+    #         page_follows BIGINT
+    #     );
 
-        -- Fait Démographie unifiée
-        CREATE TABLE IF NOT EXISTS fact_fan_demographics (
-            fact_id SERIAL PRIMARY KEY,
-            insight_id BIGINT,
-            client_id INT REFERENCES dim_client(client_id),
-            date_id INT REFERENCES dim_date(date_id),
-            location_id INT REFERENCES dim_location(location_id),
-            nb_fans INT
-        );
+    #     -- Fait Démographie unifiée
+    #     CREATE TABLE IF NOT EXISTS fact_fan_demographics (
+    #         fact_id SERIAL PRIMARY KEY,
+    #         insight_id BIGINT,
+    #         client_id INT REFERENCES dim_client(client_id),
+    #         date_id INT REFERENCES dim_date(date_id),
+    #         location_id INT REFERENCES dim_location(location_id),
+    #         nb_fans INT
+    #     );
 
-        """
-    )
+    #     """
+    # )
 
     # 2. DIMENSIONS
 

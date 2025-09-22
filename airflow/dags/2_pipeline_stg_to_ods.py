@@ -20,118 +20,118 @@ with DAG(
         task_id="truncate_ods_tables",
         conn_id="postgres",
         sql=""" 
-        DROP TABLE IF EXISTS ods_clients CASCADE;
-        DROP TABLE IF EXISTS ods_posts CASCADE;
-        DROP TABLE IF EXISTS ods_insights CASCADE;
-        DROP TABLE IF EXISTS ods_fans_country CASCADE;
-        DROP TABLE IF EXISTS ods_fans_city CASCADE;
-        DROP TABLE IF EXISTS ods_fans_locale CASCADE;
-        DROP TABLE IF EXISTS ods_data_video;
+        TRUNCATE TABLE ods_clients CASCADE;
+        TRUNCATE TABLE ods_posts CASCADE;
+        TRUNCATE TABLE ods_insights CASCADE;
+        TRUNCATE TABLE ods_fans_country CASCADE;
+        TRUNCATE TABLE ods_fans_city CASCADE;
+        TRUNCATE TABLE ods_fans_locale CASCADE;
+        TRUNCATE TABLE ods_data_video;
         """
     )
 
-    create_ods_tables = SQLExecuteQueryOperator(
-        task_id="create_ods_tables",
-        conn_id="postgres",
-        sql="""
+    # create_ods_tables = SQLExecuteQueryOperator(
+    #     task_id="create_ods_tables",
+    #     conn_id="postgres",
+    #     sql="""
         
-        CREATE TABLE IF NOT EXISTS ods_clients (
-            client_id INT PRIMARY KEY,
-            name VARCHAR,
-            managed BOOLEAN,
-            social_type VARCHAR,
-            actif BOOLEAN,
-            type VARCHAR,
-            picture TEXT
-        );
+    #     CREATE TABLE IF NOT EXISTS ods_clients (
+    #         client_id INT PRIMARY KEY,
+    #         name VARCHAR,
+    #         managed BOOLEAN,
+    #         social_type VARCHAR,
+    #         actif BOOLEAN,
+    #         type VARCHAR,
+    #         picture TEXT
+    #     );
         
-        CREATE TABLE IF NOT EXISTS ods_posts (
-            post_id BIGINT PRIMARY KEY,
-            client_id INT,
-            social_type VARCHAR,
-            post_type VARCHAR,
-            creation_time TIMESTAMP,
-            message TEXT,
-            comments INT,
-            likes INT,
-            shares INT,
-            views INT,
-            clicks INT,
-            reactions INT,
-            reach INT,
-            reach_organic INT,
-            reach_paid INT,
-            is_real VARCHAR,
-            post_clicks_by_type TEXT,
-            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
-        );
+    #     CREATE TABLE IF NOT EXISTS ods_posts (
+    #         post_id BIGINT PRIMARY KEY,
+    #         client_id INT,
+    #         social_type VARCHAR,
+    #         post_type VARCHAR,
+    #         creation_time TIMESTAMP,
+    #         message TEXT,
+    #         comments INT,
+    #         likes INT,
+    #         shares INT,
+    #         views INT,
+    #         clicks INT,
+    #         reactions INT,
+    #         reach INT,
+    #         reach_organic INT,
+    #         reach_paid INT,
+    #         is_real VARCHAR,
+    #         post_clicks_by_type TEXT,
+    #         FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
+    #     );
 
-        CREATE TABLE IF NOT EXISTS ods_insights (
-            insight_id BIGINT PRIMARY KEY,
-            client_id INT,
-            insight_date DATE,
-            page_fans BIGINT,
-            page_fan_adds INTEGER,
-            page_fan_removes INTEGER,
-            page_engaged_users INTEGER,
-            page_impressions_unique INTEGER,
-            page_impressions_organic_unique_v2 INTEGER,
-            page_impressions_paid_unique INTEGER,
-            page_post_engagements INTEGER,
-            page_fans_online_per_day INTEGER,
-            page_impressions INTEGER,
-            page_impressions_organic_v2 INTEGER,
-            page_impressions_paid INTEGER,
-            page_follows BIGINT,
-            page_fans_country TEXT,
-            page_fans_city TEXT,
-            page_fans_locale TEXT,
-            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
-        );
+    #     CREATE TABLE IF NOT EXISTS ods_insights (
+    #         insight_id BIGINT PRIMARY KEY,
+    #         client_id INT,
+    #         insight_date DATE,
+    #         page_fans BIGINT,
+    #         page_fan_adds INTEGER,
+    #         page_fan_removes INTEGER,
+    #         page_engaged_users INTEGER,
+    #         page_impressions_unique INTEGER,
+    #         page_impressions_organic_unique_v2 INTEGER,
+    #         page_impressions_paid_unique INTEGER,
+    #         page_post_engagements INTEGER,
+    #         page_fans_online_per_day INTEGER,
+    #         page_impressions INTEGER,
+    #         page_impressions_organic_v2 INTEGER,
+    #         page_impressions_paid INTEGER,
+    #         page_follows BIGINT,
+    #         page_fans_country TEXT,
+    #         page_fans_city TEXT,
+    #         page_fans_locale TEXT,
+    #         FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
+    #     );
 
-        CREATE TABLE IF NOT EXISTS ods_fans_country (
-            insight_id BIGINT,
-            client_id INT,
-            insight_date DATE,
-            country VARCHAR,
-            nb_fans INT,
-            PRIMARY KEY (insight_id, country),
-            FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
-            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
-        );
-        CREATE TABLE IF NOT EXISTS ods_fans_city (
-            insight_id BIGINT,
-            client_id INT,
-            insight_date DATE,
-            city VARCHAR,
-            nb_fans INT,
-            PRIMARY KEY (insight_id, city),
-            FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
-            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
-        );
-        CREATE TABLE IF NOT EXISTS ods_fans_locale (
-            insight_id BIGINT,
-            client_id INT,
-            insight_date DATE,
-            locale VARCHAR,
-            nb_fans INT,
-            PRIMARY KEY (insight_id, locale),
-            FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
-            FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
-        );
+    #     CREATE TABLE IF NOT EXISTS ods_fans_country (
+    #         insight_id BIGINT,
+    #         client_id INT,
+    #         insight_date DATE,
+    #         country VARCHAR,
+    #         nb_fans INT,
+    #         PRIMARY KEY (insight_id, country),
+    #         FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
+    #         FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
+    #     );
+    #     CREATE TABLE IF NOT EXISTS ods_fans_city (
+    #         insight_id BIGINT,
+    #         client_id INT,
+    #         insight_date DATE,
+    #         city VARCHAR,
+    #         nb_fans INT,
+    #         PRIMARY KEY (insight_id, city),
+    #         FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
+    #         FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
+    #     );
+    #     CREATE TABLE IF NOT EXISTS ods_fans_locale (
+    #         insight_id BIGINT,
+    #         client_id INT,
+    #         insight_date DATE,
+    #         locale VARCHAR,
+    #         nb_fans INT,
+    #         PRIMARY KEY (insight_id, locale),
+    #         FOREIGN KEY (insight_id) REFERENCES ods_insights(insight_id),
+    #         FOREIGN KEY (client_id) REFERENCES ods_clients(client_id)
+    #     );
 
-        CREATE TABLE IF NOT EXISTS ods_data_video (
-            post_id INTEGER PRIMARY KEY,
-            total_video_views INTEGER,
-            total_video_views_paid INTEGER,
-            total_video_views_organic INTEGER,
-            total_video_views_autoplayed INTEGER,
-            total_video_views_clicked_to_play INTEGER,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (post_id) REFERENCES ods_posts(post_id)
-        );
-        """
-    )
+    #     CREATE TABLE IF NOT EXISTS ods_data_video (
+    #         post_id INTEGER PRIMARY KEY,
+    #         total_video_views INTEGER,
+    #         total_video_views_paid INTEGER,
+    #         total_video_views_organic INTEGER,
+    #         total_video_views_autoplayed INTEGER,
+    #         total_video_views_clicked_to_play INTEGER,
+    #         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    #         FOREIGN KEY (post_id) REFERENCES ods_posts(post_id)
+    #     );
+    #     """
+    # )
 
     ods_clients = SQLExecuteQueryOperator(
         task_id="ods_clients",

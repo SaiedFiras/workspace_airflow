@@ -11,175 +11,177 @@ import json
 default_args = {
     'owner': 'airflow', 
     'start_date': datetime(2025, 5, 1),
-    'retries': 1,
+    'retries': 0,
 }
 
 dag = DAG(
     'API_JSON_to_stg',
     default_args=default_args,
-    schedule_interval=None,
+    schedule_interval='0 7 * * *',
     catchup=False,
 )
 
-# Drop tables pour permettre l'évolution du modèle si jamais je modifie les tables
+# Truncate on garde la sturcture et on modifie le contenu
 drop_all_table = SQLExecuteQueryOperator(
     task_id='truncate_stg_table',
     conn_id='postgres',
     sql="""
-        DROP TABLE IF EXISTS stg_clients CASCADE;
-        DROP TABLE IF EXISTS stg_posts CASCADE;
-        DROP TABLE IF EXISTS stg_unmanaged_clients CASCADE;
-        DROP TABLE IF EXISTS stg_insights CASCADE;
+        TURNCATE TABLE IF EXISTS stg_clients CASCADE;
+        TURNCATE TABLE IF EXISTS stg_posts CASCADE;
+        TURNCATE TABLE IF EXISTS stg_unmanaged_clients CASCADE;
+        TURNCATE TABLE IF EXISTS stg_insights CASCADE;
     """
 )
 
-create_stg_clients_table = SQLExecuteQueryOperator(
-    task_id='create_stg_clients_table',
-    conn_id='postgres',
-    sql="""
-        CREATE TABLE IF NOT EXISTS stg_clients (
-            id INTEGER PRIMARY KEY,
-            name VARCHAR,
-            social_id VARCHAR,
-            social_type VARCHAR,
-            type VARCHAR,
-            state TEXT,
-            picture TEXT,
-            cover TEXT,
-            related_instagram_id VARCHAR,
-            created_at TIMESTAMP,
-            updated_at TIMESTAMP,
-            owner_id INTEGER,
-            local_media TEXT,
-            actif INTEGER,
-            managed INTEGER
-        );
-    """,
-    dag=dag,
-)
+# create_stg_clients_table = SQLExecuteQueryOperator(
+#     task_id='create_stg_clients_table',
+#     conn_id='postgres',
+#     sql="""
+#         CREATE TABLE IF NOT EXISTS stg_clients (
+#             id INTEGER PRIMARY KEY,
+#             name VARCHAR,
+#             social_id VARCHAR,
+#             social_type VARCHAR,
+#             type VARCHAR,
+#             state TEXT,
+#             picture TEXT,
+#             cover TEXT,
+#             related_instagram_id VARCHAR,
+#             created_at TIMESTAMP,
+#             updated_at TIMESTAMP,
+#             owner_id INTEGER,
+#             local_media TEXT,
+#             actif INTEGER,
+#             managed INTEGER
+#         );
+#     """,
+#     dag=dag,
+# )
 
-create_stg_unmanaged_clients_table = SQLExecuteQueryOperator(
-    task_id='create_stg_unmanaged_clients_table',
-    conn_id='postgres',
-    sql="""
-        CREATE TABLE IF NOT EXISTS stg_unmanaged_clients (
-            id INTEGER PRIMARY KEY,
-            name VARCHAR,
-            social_id VARCHAR,
-            social_type VARCHAR,
-            type VARCHAR,
-            state TEXT,
-            picture TEXT,
-            cover TEXT,
-            related_instagram_id VARCHAR,
-            created_at TIMESTAMP,
-            updated_at TIMESTAMP,
-            owner_id INTEGER,
-            local_media TEXT,
-            actif INTEGER,
-            managed INTEGER
-        );
-    """,
-    dag=dag,
-)
+# create_stg_unmanaged_clients_table = SQLExecuteQueryOperator(
+#     task_id='create_stg_unmanaged_clients_table',
+#     conn_id='postgres',
+#     sql="""
+#         CREATE TABLE IF NOT EXISTS stg_unmanaged_clients (
+#             id INTEGER PRIMARY KEY,
+#             name VARCHAR,
+#             social_id VARCHAR,
+#             social_type VARCHAR,
+#             type VARCHAR,
+#             state TEXT,
+#             picture TEXT,
+#             cover TEXT,
+#             related_instagram_id VARCHAR,
+#             created_at TIMESTAMP,
+#             updated_at TIMESTAMP,
+#             owner_id INTEGER,
+#             local_media TEXT,
+#             actif INTEGER,
+#             managed INTEGER
+#         );
+#     """,
+#     dag=dag,
+# )
 
-create_stg_posts_table = SQLExecuteQueryOperator(
-    task_id='create_stg_posts_table',
-    conn_id='postgres',
-    sql="""
-        CREATE TABLE IF NOT EXISTS stg_posts (
-            id BIGINT PRIMARY KEY,
-            page_id INTEGER,
-            social_id VARCHAR,
-            social_type VARCHAR,
-            creation_time TIMESTAMP,
-            url TEXT,
-            type VARCHAR,
-            status_type VARCHAR,
-            message TEXT,
-            story TEXT,
-            picture TEXT,
-            profile_cover TEXT,
-            reactions INTEGER,
-            comments INTEGER,
-            shares INTEGER,
-            views INTEGER,
-            views_organic INTEGER,
-            views_paid INTEGER,
-            reach INTEGER,
-            reach_organic INTEGER,
-            reach_paid INTEGER,
-            likes INTEGER,
-            wow INTEGER,
-            sad INTEGER,
-            haha INTEGER,
-            angry INTEGER,
-            none INTEGER,
-            love INTEGER,
-            thankful INTEGER,
-            is_deleted INTEGER,
-            created_at TIMESTAMP,
-            updated_at TIMESTAMP,
-            data TEXT,
-            local_media TEXT,
-            clicks INTEGER,
-            post_clicks_by_type TEXT,
-            saved INTEGER,
-            is_real VARCHAR,
-            comments_ad INTEGER,
-            views_ad INTEGER,
-            reach_ad INTEGER,
-            likes_ad INTEGER,
-            saved_ad INTEGER,
-            shares_ad INTEGER,
-            tag VARCHAR,
-            reactions_new TEXT,
-            score_new VARCHAR,
-            commentaires TEXT    
-        );
-    """,
-    dag=dag,
-)
 
-create_stg_insights_table = SQLExecuteQueryOperator(
-    task_id='create_stg_insights_table',
-    conn_id='postgres',
-    sql="""
-        CREATE TABLE IF NOT EXISTS stg_insights (
-            id BIGINT PRIMARY KEY,
-            page_id INTEGER,
-            day DATE,
-            page_fans BIGINT,
-            page_fan_adds INTEGER,
-            page_fan_removes INTEGER,
-            page_impressions_unique INTEGER,
-            page_impressions_organic_unique_v2 INTEGER,
-            page_impressions_paid_unique INTEGER,
-            page_fans_online_per_day INTEGER,
-            page_engaged_users INTEGER,
-            page_fans_online TEXT,
-            page_fans_country TEXT,
-            page_fans_city TEXT,
-            page_fans_locale TEXT,
-            page_fans_gender_age TEXT,
-            data TEXT,
-            created_at TIMESTAMP,
-            updated_at TIMESTAMP,
-            page_fans_seniority TEXT,
-            page_fans_industry TEXT,
-            page_fans_job_function TEXT,
-            page_fan_adds_by_paid_non_paid_unique TEXT,
-            page_post_engagements INTEGER,
-            page_impressions INTEGER,
-            page_impressions_paid INTEGER,
-            page_impressions_organic_v2 INTEGER,
-            page_follows BIGINT,
-            page_impressions_unique_28 BIGINT,
-            page_impressions_unique_week BIGINT
-        );
-    """,
-    dag=dag,
-)
+# create_stg_posts_table = SQLExecuteQueryOperator(
+#     task_id='create_stg_posts_table',
+#     conn_id='postgres',
+#     sql="""
+#         CREATE TABLE IF NOT EXISTS stg_posts (
+#             id BIGINT PRIMARY KEY,
+#             page_id INTEGER,
+#             social_id VARCHAR,
+#             social_type VARCHAR,
+#             creation_time TIMESTAMP,
+#             url TEXT,
+#             type VARCHAR,
+#             status_type VARCHAR,
+#             message TEXT,
+#             story TEXT,
+#             picture TEXT,
+#             profile_cover TEXT,
+#             reactions INTEGER,
+#             comments INTEGER,
+#             shares INTEGER,
+#             views INTEGER,
+#             views_organic INTEGER,
+#             views_paid INTEGER,
+#             reach INTEGER,
+#             reach_organic INTEGER,
+#             reach_paid INTEGER,
+#             likes INTEGER,
+#             wow INTEGER,
+#             sad INTEGER,
+#             haha INTEGER,
+#             angry INTEGER,
+#             none INTEGER,
+#             love INTEGER,
+#             thankful INTEGER,
+#             is_deleted INTEGER,
+#             created_at TIMESTAMP,
+#             updated_at TIMESTAMP,
+#             data TEXT,
+#             local_media TEXT,
+#             clicks INTEGER,
+#             post_clicks_by_type TEXT,
+#             saved INTEGER,
+#             is_real VARCHAR,
+#             comments_ad INTEGER,
+#             views_ad INTEGER,
+#             reach_ad INTEGER,
+#             likes_ad INTEGER,
+#             saved_ad INTEGER,
+#             shares_ad INTEGER,
+#             tag VARCHAR,
+#             reactions_new TEXT,
+#             score_new VARCHAR,
+#             commentaires TEXT    
+#         );
+#     """,
+#     dag=dag,
+# )
+
+# create_stg_insights_table = SQLExecuteQueryOperator(
+#     task_id='create_stg_insights_table',
+#     conn_id='postgres',
+#     sql="""
+#         CREATE TABLE IF NOT EXISTS stg_insights (
+#             id BIGINT PRIMARY KEY,
+#             page_id INTEGER,
+#             day DATE,
+#             page_fans BIGINT,
+#             page_fan_adds INTEGER,
+#             page_fan_removes INTEGER,
+#             page_impressions_unique INTEGER,
+#             page_impressions_organic_unique_v2 INTEGER,
+#             page_impressions_paid_unique INTEGER,
+#             page_fans_online_per_day INTEGER,
+#             page_engaged_users INTEGER,
+#             page_fans_online TEXT,
+#             page_fans_country TEXT,
+#             page_fans_city TEXT,
+#             page_fans_locale TEXT,
+#             page_fans_gender_age TEXT,
+#             data TEXT,
+#             created_at TIMESTAMP,
+#             updated_at TIMESTAMP,
+#             page_fans_seniority TEXT,
+#             page_fans_industry TEXT,
+#             page_fans_job_function TEXT,
+#             page_fan_adds_by_paid_non_paid_unique TEXT,
+#             page_post_engagements INTEGER,
+#             page_impressions INTEGER,
+#             page_impressions_paid INTEGER,
+#             page_impressions_organic_v2 INTEGER,
+#             page_follows BIGINT,
+#             page_impressions_unique_28 BIGINT,
+#             page_impressions_unique_week BIGINT
+#         );
+#     """,
+#     dag=dag,
+# )
+
 
 def remove_nul_chars(val): # Suppression des caracteres nuls 
     if isinstance(val, str):
