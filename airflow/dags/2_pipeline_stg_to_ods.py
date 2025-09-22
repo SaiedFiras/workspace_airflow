@@ -412,7 +412,7 @@ with DAG(
 
 
     (
-        drop_ods_tables >> 
+        truncate_ods_tables >> 
         ods_clients >> ods_posts >> ods_insights >>
         ods_fans_country >> ods_fans_city >> ods_fans_locale >>
         ods_data_video >>
